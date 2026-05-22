@@ -112,7 +112,7 @@ function DashboardPage() {
                       <p className="text-xs text-muted-foreground">{formatDate(p.payment_date)}</p>
                     </div>
                     <div className="text-right">
-                      <p className="text-sm font-semibold">{formatCurrency(p.amount)}</p>
+                      <p className="text-sm font-semibold">{formatCurrency(p.amount_paid)}</p>
                       <PaymentMethodBadge method={p.payment_method} />
                     </div>
                   </div>

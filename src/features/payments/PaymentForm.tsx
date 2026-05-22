@@ -46,7 +46,7 @@ export function PaymentForm({
       (
         await api.post("/api/payments/", {
           loan: Number(form.loan),
-          amount: form.amount,
+          amount_paid: form.amount,
           payment_method: form.payment_method,
           notes: form.notes,
         })

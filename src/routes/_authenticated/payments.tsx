@@ -92,7 +92,7 @@ function PaymentsPage() {
                       <TableCell className="font-medium">
                         {p.customer_name ?? `Loan #${p.loan}`}
                       </TableCell>
-                      <TableCell>{formatCurrency(p.amount)}</TableCell>
+                      <TableCell>{formatCurrency(p.amount_paid)}</TableCell>
                       <TableCell><PaymentMethodBadge method={p.payment_method} /></TableCell>
                       <TableCell className="text-muted-foreground">{formatDate(p.payment_date)}</TableCell>
                       <TableCell className="hidden md:table-cell max-w-[280px] truncate text-muted-foreground">

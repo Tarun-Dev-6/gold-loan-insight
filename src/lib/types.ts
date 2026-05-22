@@ -30,7 +30,7 @@ export interface Payment {
   loan: number;
   loan_id?: number;
   customer_name?: string;
-  amount: string | number;
+  amount_paid: string | number;
   payment_method: PaymentMethod;
   payment_date: string;
   notes?: string;
