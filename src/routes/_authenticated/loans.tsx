@@ -162,7 +162,9 @@ function LoansPage() {
         description={`This will mark loan #${deactivateTarget?.id} as inactive.`}
         confirmText="Deactivate"
         destructive
-        onConfirm={() => deactivateTarget && deactivateMutation.mutate(deactivateTarget.id)}
+        onConfirm={() => {
+          if (deactivateTarget) deactivateMutation.mutate(deactivateTarget.id);
+        }}
       />
     </AppLayout>
   );
