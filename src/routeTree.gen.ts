@@ -13,8 +13,6 @@ import { Route as LoginRouteImport } from './routes/login'
 import { Route as AuthenticatedRouteImport } from './routes/_authenticated'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as AuthenticatedStaffRouteImport } from './routes/_authenticated/staff'
-import { Route as AuthenticatedPaymentsRouteImport } from './routes/_authenticated/payments'
-import { Route as AuthenticatedLoansRouteImport } from './routes/_authenticated/loans'
 import { Route as AuthenticatedDashboardRouteImport } from './routes/_authenticated/dashboard'
 import { Route as AuthenticatedCustomersRouteImport } from './routes/_authenticated/customers'
 
@@ -37,16 +35,6 @@ const AuthenticatedStaffRoute = AuthenticatedStaffRouteImport.update({
   path: '/staff',
   getParentRoute: () => AuthenticatedRoute,
 } as any)
-const AuthenticatedPaymentsRoute = AuthenticatedPaymentsRouteImport.update({
-  id: '/payments',
-  path: '/payments',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
-const AuthenticatedLoansRoute = AuthenticatedLoansRouteImport.update({
-  id: '/loans',
-  path: '/loans',
-  getParentRoute: () => AuthenticatedRoute,
-} as any)
 const AuthenticatedDashboardRoute = AuthenticatedDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -63,8 +51,6 @@ export interface FileRoutesByFullPath {
   '/login': typeof LoginRoute
   '/customers': typeof AuthenticatedCustomersRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/loans': typeof AuthenticatedLoansRoute
-  '/payments': typeof AuthenticatedPaymentsRoute
   '/staff': typeof AuthenticatedStaffRoute
 }
 export interface FileRoutesByTo {
@@ -72,8 +58,6 @@ export interface FileRoutesByTo {
   '/login': typeof LoginRoute
   '/customers': typeof AuthenticatedCustomersRoute
   '/dashboard': typeof AuthenticatedDashboardRoute
-  '/loans': typeof AuthenticatedLoansRoute
-  '/payments': typeof AuthenticatedPaymentsRoute
   '/staff': typeof AuthenticatedStaffRoute
 }
 export interface FileRoutesById {
@@ -83,29 +67,13 @@ export interface FileRoutesById {
   '/login': typeof LoginRoute
   '/_authenticated/customers': typeof AuthenticatedCustomersRoute
   '/_authenticated/dashboard': typeof AuthenticatedDashboardRoute
-  '/_authenticated/loans': typeof AuthenticatedLoansRoute
-  '/_authenticated/payments': typeof AuthenticatedPaymentsRoute
   '/_authenticated/staff': typeof AuthenticatedStaffRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths:
-    | '/'
-    | '/login'
-    | '/customers'
-    | '/dashboard'
-    | '/loans'
-    | '/payments'
-    | '/staff'
+  fullPaths: '/' | '/login' | '/customers' | '/dashboard' | '/staff'
   fileRoutesByTo: FileRoutesByTo
-  to:
-    | '/'
-    | '/login'
-    | '/customers'
-    | '/dashboard'
-    | '/loans'
-    | '/payments'
-    | '/staff'
+  to: '/' | '/login' | '/customers' | '/dashboard' | '/staff'
   id:
     | '__root__'
     | '/'
@@ -113,8 +81,6 @@ export interface FileRouteTypes {
     | '/login'
     | '/_authenticated/customers'
     | '/_authenticated/dashboard'
-    | '/_authenticated/loans'
-    | '/_authenticated/payments'
     | '/_authenticated/staff'
   fileRoutesById: FileRoutesById
 }
@@ -154,20 +120,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthenticatedStaffRouteImport
       parentRoute: typeof AuthenticatedRoute
     }
-    '/_authenticated/payments': {
-      id: '/_authenticated/payments'
-      path: '/payments'
-      fullPath: '/payments'
-      preLoaderRoute: typeof AuthenticatedPaymentsRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
-    '/_authenticated/loans': {
-      id: '/_authenticated/loans'
-      path: '/loans'
-      fullPath: '/loans'
-      preLoaderRoute: typeof AuthenticatedLoansRouteImport
-      parentRoute: typeof AuthenticatedRoute
-    }
     '/_authenticated/dashboard': {
       id: '/_authenticated/dashboard'
       path: '/dashboard'
@@ -188,16 +140,12 @@ declare module '@tanstack/react-router' {
 interface AuthenticatedRouteChildren {
   AuthenticatedCustomersRoute: typeof AuthenticatedCustomersRoute
   AuthenticatedDashboardRoute: typeof AuthenticatedDashboardRoute
-  AuthenticatedLoansRoute: typeof AuthenticatedLoansRoute
-  AuthenticatedPaymentsRoute: typeof AuthenticatedPaymentsRoute
   AuthenticatedStaffRoute: typeof AuthenticatedStaffRoute
 }
 
 const AuthenticatedRouteChildren: AuthenticatedRouteChildren = {
   AuthenticatedCustomersRoute: AuthenticatedCustomersRoute,
   AuthenticatedDashboardRoute: AuthenticatedDashboardRoute,
-  AuthenticatedLoansRoute: AuthenticatedLoansRoute,
-  AuthenticatedPaymentsRoute: AuthenticatedPaymentsRoute,
   AuthenticatedStaffRoute: AuthenticatedStaffRoute,
 }
 
