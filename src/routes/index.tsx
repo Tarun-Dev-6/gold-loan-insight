@@ -7,5 +7,5 @@ export const Route = createFileRoute("/")({
 
 function Index() {
   const authed = typeof window !== "undefined" && !!tokenStore.getAccess();
-  return <Navigate to={authed ? "/dashboard" : "/login"} />;
+  return <Navigate to={authed ? "/customers" : "/login"} />;
 }

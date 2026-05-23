@@ -17,10 +17,20 @@ import {
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { toast } from "sonner";
 
-export function LoanForm({ open, onOpenChange }: { open: boolean; onOpenChange: (v: boolean) => void }) {
+export function LoanForm({
+  open,
+  onOpenChange,
+  presetCustomerId,
+  presetCustomerName,
+}: {
+  open: boolean;
+  onOpenChange: (v: boolean) => void;
+  presetCustomerId?: number;
+  presetCustomerName?: string;
+}) {
   const qc = useQueryClient();
   const [form, setForm] = useState({
-    customer: "",
+    customer: presetCustomerId ? String(presetCustomerId) : "",
     loan_amount: "",
     interest_rate: "",
     gold_weight: "",
@@ -30,7 +40,7 @@ export function LoanForm({ open, onOpenChange }: { open: boolean; onOpenChange: 
   const { data: customersData } = useQuery({
     queryKey: ["customers", "all-for-loan"],
     queryFn: async () => (await api.get<Paginated<Customer> | Customer[]>("/api/customers/?page_size=500")).data,
-    enabled: open,
+    enabled: open && !presetCustomerId,
   });
   const customers: Customer[] = Array.isArray(customersData) ? customersData : (customersData?.results ?? []);
 
@@ -48,9 +58,16 @@ export function LoanForm({ open, onOpenChange }: { open: boolean; onOpenChange: 
     onSuccess: () => {
       toast.success("Loan created");
       qc.invalidateQueries({ queryKey: ["loans"] });
+      qc.invalidateQueries({ queryKey: ["customer-loans"] });
       qc.invalidateQueries({ queryKey: ["dashboard"] });
       onOpenChange(false);
-      setForm({ customer: "", loan_amount: "", interest_rate: "", gold_weight: "", gold_description: "" });
+      setForm({
+        customer: presetCustomerId ? String(presetCustomerId) : "",
+        loan_amount: "",
+        interest_rate: "",
+        gold_weight: "",
+        gold_description: "",
+      });
     },
     onError: (e) => toast.error(apiErrorMessage(e, "Failed to create loan")),
   });
@@ -71,19 +88,26 @@ export function LoanForm({ open, onOpenChange }: { open: boolean; onOpenChange: 
           <DialogTitle>New Loan</DialogTitle>
         </DialogHeader>
         <form onSubmit={submit} className="space-y-4">
-          <div className="space-y-2">
-            <Label>Customer</Label>
-            <Select value={form.customer} onValueChange={(v) => setForm((f) => ({ ...f, customer: v }))}>
-              <SelectTrigger><SelectValue placeholder="Select a customer" /></SelectTrigger>
-              <SelectContent>
-                {customers.map((c) => (
-                  <SelectItem key={c.id} value={String(c.id)}>
-                    {c.full_name} — {c.phone_number}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
-          </div>
+          {presetCustomerId ? (
+            <div className="rounded-lg border border-border bg-muted/40 px-3 py-2">
+              <p className="text-xs text-muted-foreground">Customer</p>
+              <p className="text-sm font-medium">{presetCustomerName ?? `#${presetCustomerId}`}</p>
+            </div>
+          ) : (
+            <div className="space-y-2">
+              <Label>Customer</Label>
+              <Select value={form.customer} onValueChange={(v) => setForm((f) => ({ ...f, customer: v }))}>
+                <SelectTrigger><SelectValue placeholder="Select a customer" /></SelectTrigger>
+                <SelectContent>
+                  {customers.map((c) => (
+                    <SelectItem key={c.id} value={String(c.id)}>
+                      {c.full_name} — {c.phone_number}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
+          )}
           <div className="grid grid-cols-2 gap-3">
             <div className="space-y-2">
               <Label htmlFor="loan_amount">Loan amount (₹)</Label>
