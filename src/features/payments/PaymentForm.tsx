@@ -55,9 +55,15 @@ export function PaymentForm({
       toast.success("Payment recorded");
       qc.invalidateQueries({ queryKey: ["payments"] });
       qc.invalidateQueries({ queryKey: ["loans"] });
+      qc.invalidateQueries({ queryKey: ["customer-loans"] });
       qc.invalidateQueries({ queryKey: ["dashboard"] });
       onOpenChange(false);
-      setForm({ loan: "", amount: "", payment_method: "CASH", notes: "" });
+      setForm({
+        loan: defaultLoanId ? String(defaultLoanId) : "",
+        amount: "",
+        payment_method: "CASH",
+        notes: "",
+      });
     },
     onError: (e) => toast.error(apiErrorMessage(e, "Failed to add payment")),
   });
