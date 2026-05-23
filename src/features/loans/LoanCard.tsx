@@ -20,7 +20,8 @@ export function LoanCard({ loan }: { loan: Loan }) {
   const deactivate = useMutation({
     mutationFn: async () => {
       try {
-        return (await api.post(`/api/loans/${loan.id}/deactivate/`)).data;
+        return (await api.patch(`/api/loans/${loan.id}/deactivate/`)).data;
+
       } catch {
         return (await api.patch(`/api/loans/${loan.id}/`, { status: "INACTIVE" })).data;
       }
@@ -77,6 +78,12 @@ export function LoanCard({ loan }: { loan: Loan }) {
               Record Payment
             </Button>
           )}
+          <Button size="sm" variant="outline" onClick={async () => { const response = await api.get( `/api/loans/${loan.id}/receipt/`, { responseType: "blob", } ); const url = window.URL.createObjectURL( new Blob([response.data]) ); const link = document.createElement("a"); link.href = url; link.setAttribute( "download", `loan_${loan.id}.pdf` );
+           document.body.appendChild(link); 
+           link.click(); link.remove();
+            }} > Download Receipt 
+            </Button>
+            
           {isActive && isOwner && (
             <Button
               size="sm"

@@ -51,8 +51,15 @@ export function PaymentForm({
           notes: form.notes,
         })
       ).data,
-    onSuccess: () => {
+    onSuccess: async (payment) => {
       toast.success("Payment recorded");
+      const response = await api.get( `/api/payments/${payment.id}/receipt/`, { responseType: "blob", } );
+      const url = window.URL.createObjectURL( new Blob([response.data]) ); 
+      const link = document.createElement("a"); 
+      link.href = url; 
+      link.setAttribute( "download", `payment_${payment.id}.pdf` ); 
+      document.body.appendChild(link); 
+      link.click(); link.remove();
       qc.invalidateQueries({ queryKey: ["payments"] });
       qc.invalidateQueries({ queryKey: ["loans"] });
       qc.invalidateQueries({ queryKey: ["customer-loans"] });

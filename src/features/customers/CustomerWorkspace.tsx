@@ -11,6 +11,7 @@ import { CustomerForm } from "@/features/customers/CustomerForm";
 import { LoanForm } from "@/features/loans/LoanForm";
 import { LoanCard } from "@/features/loans/LoanCard";
 import { formatCurrency, formatDate } from "@/lib/format";
+import { Pagination } from "@/components/common/Pagination";
 
 export function CustomerWorkspace() {
   const [search, setSearch] = useState("");
@@ -157,6 +158,19 @@ function SelectedCustomerView({
   }, [data, customer.id]);
 
   const totalLoans = loans.length;
+const [loanPage, setLoanPage] = useState(1);
+
+const LOANS_PER_PAGE = 2;
+
+const paginatedLoans = loans.slice(
+  (loanPage - 1) * LOANS_PER_PAGE,
+  loanPage * LOANS_PER_PAGE
+);
+
+const loanPageCount = Math.ceil(
+  loans.length / LOANS_PER_PAGE
+);
+
   const activeLoans = loans.filter((l) => l.status === "ACTIVE");
   const outstanding = activeLoans.reduce((s, l) => s + Number(l.outstanding_balance ?? 0), 0);
 
@@ -219,13 +233,32 @@ function SelectedCustomerView({
             </Button>
           }
         />
-      ) : (
-        <div className="grid gap-4 lg:grid-cols-2">
-          {loans.map((l) => (
-            <LoanCard key={l.id} loan={{ ...l, customer_name: l.customer_name ?? customer.full_name }} />
-          ))}
-        </div>
-      )}
+) : (
+  <>
+    <div className="grid gap-4 lg:grid-cols-2">
+      {paginatedLoans.map((l) => (
+        <LoanCard
+          key={l.id}
+          loan={{
+            ...l,
+            customer_name: l.customer_name ?? customer.full_name,
+          }}
+        />
+      ))}
+    </div>
+
+    {loanPageCount > 1 && (
+      <div className="pt-4">
+        <Pagination
+          page={loanPage}
+          pageCount={loanPageCount}
+          onChange={setLoanPage}
+        />
+      </div>
+    )}
+  </>
+)}
+
     </div>
   );
 }

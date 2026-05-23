@@ -49,7 +49,7 @@ function LoansPage() {
   const deactivateMutation = useMutation({
     mutationFn: async (id: number) => {
       try {
-        return (await api.post(`/api/loans/${id}/deactivate/`)).data;
+        return ( await api.patch(`/api/loans/${id}/deactivate/`) ).data;
       } catch {
         return (await api.patch(`/api/loans/${id}/`, { status: "INACTIVE" })).data;
       }

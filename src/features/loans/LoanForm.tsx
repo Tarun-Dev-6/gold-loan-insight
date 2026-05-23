@@ -58,7 +58,13 @@ export function LoanForm({
     onSuccess: () => {
       toast.success("Loan created");
       qc.invalidateQueries({ queryKey: ["loans"] });
-      qc.invalidateQueries({ queryKey: ["customer-loans"] });
+      qc.invalidateQueries({
+  queryKey: ["customer-loans", Number(form.customer)],
+});
+
+qc.invalidateQueries({
+  queryKey: ["customer-profile", Number(form.customer)],
+});
       qc.invalidateQueries({ queryKey: ["dashboard"] });
       onOpenChange(false);
       setForm({
