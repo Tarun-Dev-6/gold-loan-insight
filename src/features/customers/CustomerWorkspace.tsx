@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { Search, UserPlus, Users, User, Phone, MapPin, CalendarDays, Plus, Coins } from "lucide-react";
 import { api } from "@/lib/api";
@@ -279,21 +279,9 @@ function MetricTile({
 
 function useDebounced<T>(value: T, delay = 250): T {
   const [v, setV] = useState(value);
-  useMemoEffect(() => {
+  useEffect(() => {
     const t = setTimeout(() => setV(value), delay);
     return () => clearTimeout(t);
   }, [value, delay]);
   return v;
-}
-
-function useMemoEffect(fn: () => void | (() => void), deps: unknown[]) {
-  // tiny useEffect shim to avoid an extra import
-  // eslint-disable-next-line react-hooks/rules-of-hooks
-  return require_useEffect()(fn, deps);
-}
-
-// Lazy import to keep top-of-file clean
-function require_useEffect() {
-  // eslint-disable-next-line @typescript-eslint/no-require-imports
-  return (require("react") as typeof import("react")).useEffect;
 }
