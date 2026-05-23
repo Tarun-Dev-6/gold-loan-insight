@@ -77,10 +77,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "GoldLedger — Gold Loan Management" },
       { name: "description", content: "Modern gold loan management dashboard for tracking customers, loans, and payments." },
       { property: "og:title", content: "GoldLedger — Gold Loan Management" },
-      { property: "og:description", content: "Modern gold loan management dashboard." },
+      { property: "og:description", content: "Modern gold loan management dashboard for tracking customers, loans, and payments." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "GoldLedger — Gold Loan Management" },
+      { name: "twitter:description", content: "Modern gold loan management dashboard for tracking customers, loans, and payments." },
+      { property: "og:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e6bd82df-07e4-461d-952c-d97ef5073f8a/id-preview-b4dde2d3--079debb1-777f-4ac3-b2fc-a3d03395e705.lovable.app-1779429188789.png" },
+      { name: "twitter:image", content: "https://pub-bb2e103a32db4e198524a2e9ed8f35b4.r2.dev/e6bd82df-07e4-461d-952c-d97ef5073f8a/id-preview-b4dde2d3--079debb1-777f-4ac3-b2fc-a3d03395e705.lovable.app-1779429188789.png" },
     ],
     links: [
       {
