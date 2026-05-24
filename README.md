@@ -160,4 +160,4 @@ VITE_API_BASE_URL=
 
 # Author
 
-Your Name
+G Tarun Sai Satish
