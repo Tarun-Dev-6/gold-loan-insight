@@ -70,6 +70,22 @@ The system focuses heavily on backend architecture, authentication, authorizatio
 * monthly interest calculation
 * simple interest estimation
 
+## Live Application
+
+GoldLedger is fully deployed and production accessible.
+
+Users can:
+
+* create customers
+* manage loans
+* record payments
+* generate receipts
+* manage staff accounts
+* track outstanding balances
+
+without any local setup.
+
+
 ---
 
 # Application Workflow
@@ -230,9 +246,48 @@ Customer → Loans → Payments
 
 ---
 
-# Screenshots
+# Live Demo
 
-(Add screenshots here)
+## Frontend
+
+```text id="m8k2pv"
+https://gold-loan-insight.onrender.com
+```
+
+## Backend API
+
+```text id="q5t1zn"
+https://gold-application-backend.onrender.com
+```
+
+---
+
+# Demo Credentials
+
+## Owner Account
+
+```text id="a3f7xk"
+Username: Rai
+Password: rai123
+```
+
+## Staff Account
+
+```text id="n1v8lr"
+Username: remo
+Password: remo@2026
+```
+
+---
+
+# API Example
+
+```text id="e4p6ws"
+GET /api/loans/
+POST /api/payments/
+POST /api/accounts/login/
+```
+
 
 ---
 
