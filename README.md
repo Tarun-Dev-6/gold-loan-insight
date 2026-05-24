@@ -13,7 +13,7 @@ The application manages:
 * financial analytics
 * PDF receipt generation
 
-The system focuses heavily on backend architecture, business logic implementation, authentication, and financial workflows.
+The system focuses heavily on backend architecture, authentication, authorization, financial workflows, and business logic implementation.
 
 ---
 
@@ -22,6 +22,7 @@ The system focuses heavily on backend architecture, business logic implementatio
 ## Authentication & Authorization
 
 * JWT authentication
+* secure login system
 * role-based access control
 * owner/staff permissions
 
@@ -30,39 +31,151 @@ The system focuses heavily on backend architecture, business logic implementatio
 * customer search
 * customer profiles
 * guardian details
-* customer history
+* address & contact management
+* customer loan history
 
 ## Loan Management
 
 * create/manage loans
 * monthly interest calculation
 * outstanding balance tracking
-* loan lifecycle management
-* deactivate/close loans
+* active/inactive/closed loan lifecycle
+* automatic loan closing when outstanding becomes zero
 
 ## Payment System
 
 * payment recording
-* payment history
-* outstanding updates
-* payment receipts
+* payment history tracking
+* automatic outstanding updates
+* payment receipt generation
+* PDF receipt download
 
 ## Dashboard Analytics
 
-* financial statistics
-* charts and analytics
-* recent loans/payments
-* business reporting
+* total loans analytics
+* active loan statistics
+* outstanding balance overview
+* recent payments
+* financial reporting
 
 ## PDF Receipts
 
 * loan receipt generation
 * payment receipt generation
+* downloadable PDF documents
 
 ## Calculator
 
 * gold loan calculator
-* simple & compound interest calculations
+* monthly interest calculation
+* simple interest estimation
+
+---
+
+# Application Workflow
+
+## 1. Owner Login
+
+The owner logs into the system using secure JWT authentication.
+
+Owner capabilities:
+
+* manage customers
+* create loans
+* record payments
+* create staff accounts
+* view analytics
+* manage entire business workflow
+
+---
+
+## 2. Customer Creation
+
+Before creating a loan, customer details are added:
+
+* customer name
+* guardian name
+* phone number
+* address
+
+Each customer maintains a complete loan history.
+
+---
+
+## 3. Loan Creation
+
+Owner or staff creates a loan for the customer.
+
+Loan details include:
+
+* loan amount
+* gold weight
+* gold item description
+* monthly interest rate
+
+System automatically:
+
+* calculates interest
+* tracks outstanding balance
+* manages loan status
+
+---
+
+## 4. Monthly Interest Workflow
+
+Interest is calculated dynamically based on:
+
+* loan amount
+* monthly interest rate
+* months passed since issue date
+
+Outstanding balance updates automatically.
+
+---
+
+## 5. Payment Recording
+
+Payments can be recorded against active loans.
+
+System automatically:
+
+* updates total paid
+* recalculates outstanding balance
+* generates payment history
+
+If outstanding balance becomes zero:
+
+* loan status automatically changes to CLOSED
+
+---
+
+## 6. Receipt Generation
+
+After loan/payment creation:
+
+* PDF receipts can be downloaded
+* customer and transaction details are included
+
+---
+
+## 7. Staff Management
+
+Owners can:
+
+* create staff accounts
+* assign staff roles
+* restrict owner-only actions
+
+Staff users can:
+
+* manage customers
+* manage loans
+* record payments
+
+But cannot:
+
+* create owners
+* access restricted admin operations
 
 ---
 
@@ -80,8 +193,10 @@ The system focuses heavily on backend architecture, business logic implementatio
 * React
 * TypeScript
 * TanStack Query
+* TanStack Router
 * Recharts
 * Tailwind CSS
+* Vite
 
 ---
 
@@ -92,10 +207,11 @@ Frontend communicates with backend through REST APIs.
 Backend handles:
 
 * authentication
+* authorization
 * business logic
 * financial calculations
-* permissions
 * database operations
+* PDF generation
 
 ---
 
@@ -109,6 +225,7 @@ Core entities:
 * Payment
 
 Relationships:
+
 Customer → Loans → Payments
 
 ---
@@ -121,7 +238,7 @@ Customer → Loans → Payments
 
 # Installation
 
-## Backend
+## Backend Setup
 
 ```bash
 pip install -r requirements.txt
@@ -129,21 +246,42 @@ python manage.py migrate
 python manage.py runserver
 ```
 
-## Frontend
+Backend runs on:
+
+```bash
+http://127.0.0.1:8000
+```
+
+---
+
+## Frontend Setup
 
 ```bash
 npm install
 npm run dev
 ```
 
+Frontend runs on:
+
+```bash
+http://localhost:5173
+```
+
 ---
 
 # Environment Variables
 
+## Backend
+
 ```env
 SECRET_KEY=
-DATABASE_URL=
 DEBUG=
+DATABASE_URL=
+```
+
+## Frontend
+
+```env
 VITE_API_BASE_URL=
 ```
 
@@ -151,13 +289,17 @@ VITE_API_BASE_URL=
 
 # Future Improvements
 
-* Excel exports
-* Overdue alerts
+* Excel export support
+* overdue payment alerts
 * Docker deployment
-* Audit logs
+* audit logging
+* EMI support
+* SMS notifications
+* multi-branch management
 
 ---
 
 # Author
 
-G Tarun Sai Satish
+Tarun
+Full Stack Developer
